@@ -95,3 +95,15 @@ export type State = {
   };
   message?: string | null;
 };
+
+//Table generic types
+
+export type Header = {
+  label: React.ReactNode;
+  className?: string;
+};
+
+export type Column<T> = {
+  className?: string;
+  render: keyof T | ((row: T) => React.ReactNode);
+};

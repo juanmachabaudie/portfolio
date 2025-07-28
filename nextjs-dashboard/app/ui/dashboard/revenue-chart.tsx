@@ -15,7 +15,6 @@ const RevenueChart = ({ revenue }: { revenue: Promise<Revenue[]> }) => {
   const allRevenues = use(revenue);
 
   const chartHeight = 350;
-  // NOTE: Uncomment this code in Chapter 7
 
   const { yAxisLabels, topLabel } = generateYAxis(allRevenues);
 

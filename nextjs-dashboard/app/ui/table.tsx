@@ -1,3 +1,4 @@
+import { isValidElement } from "react";
 import { Column, Header } from "../lib/definitions";
 
 type TableProps<T> = {
@@ -22,10 +23,25 @@ const Table = <T,>({ headers, columns, data }: TableProps<T>) => {
         {data.map((row, rowIndex) => (
           <tr key={rowIndex} className="border-b py-3 text-sm">
             {columns.map((column, colIndex) => {
-              const content =
-                typeof column.render === "function"
-                  ? column.render(row)
-                  : (row as any)[column.render];
+              let content: React.ReactNode;
+
+              if (typeof column.render === "function") {
+                content = column.render(row);
+              } else {
+                const key = column.render;
+                const value = row[key];
+
+                if (
+                  typeof value === "string" ||
+                  typeof value === "number" ||
+                  typeof value === "boolean" ||
+                  isValidElement(value)
+                ) {
+                  content = value;
+                } else {
+                  content = null;
+                }
+              }
 
               return (
                 <td key={colIndex} className={column.className ?? ""}>
